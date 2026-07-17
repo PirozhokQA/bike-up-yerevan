@@ -23,18 +23,20 @@ html = html
 
 const worker = `const HTML = ${JSON.stringify(html)};
 
-export default async function handler(request) {
-  const pathname = new URL(request.url).pathname;
-  if (pathname !== "/" && pathname !== "/index.html") {
-    return new Response("Not Found", { status: 404 });
-  }
-  return new Response(HTML, {
-    headers: {
-      "content-type": "text/html; charset=utf-8",
-      "cache-control": "public, max-age=300"
+export default {
+  async fetch(request) {
+    const pathname = new URL(request.url).pathname;
+    if (pathname !== "/" && pathname !== "/index.html") {
+      return new Response("Not Found", { status: 404 });
     }
-  });
-}
+    return new Response(HTML, {
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "public, max-age=300"
+      }
+    });
+  }
+};
 `;
 
 await mkdir("dist/server", { recursive: true });
