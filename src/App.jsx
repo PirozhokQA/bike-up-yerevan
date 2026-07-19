@@ -63,9 +63,9 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="ВелоЛад — на главную">
+        <a className="brand" href="#top" aria-label="BIKE UP — на главную">
           <span className="brand-mark"><Bike size={24} /></span>
-          <span>ВелоЛад</span>
+          <span>BIKE UP</span>
         </a>
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Основная навигация">
           <a href="#programs" onClick={() => setMenuOpen(false)}>Программы</a>
@@ -81,11 +81,11 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <img src="/images/hero-bike-school.webp" alt="Тренер ВелоЛад проводит групповое занятие в Ереване" />
+        <img src="/images/hero-bike-school.webp" alt="Тренер BIKE UP проводит групповое занятие в Ереване" />
         <div className="hero-shade" />
         <div className="hero-content">
           <div className="eyebrow"><MapPin size={16} /> Школа велосипеда · Ереван</div>
-          <h1>ВелоЛад</h1>
+          <h1>BIKE UP</h1>
           <p className="hero-lead">Научим управлять велосипедом, а не просто держаться в седле.</p>
           <p className="hero-copy">Безопасные индивидуальные и групповые занятия для детей и взрослых — от первого старта до трюков и препятствий.</p>
           <div className="hero-actions">
@@ -189,7 +189,7 @@ export default function Home() {
       <section className="location-band" id="location">
         <div className="location-map" aria-label="Схематичная карта Еревана">
           <span className="map-road r1" /><span className="map-road r2" /><span className="map-road r3" /><span className="map-road r4" />
-          <span className="map-pin"><MapPin /><i>ВелоЛад</i></span>
+          <span className="map-pin"><MapPin /><i>BIKE UP</i></span>
           <span className="map-label label-1">Кентрон</span><span className="map-label label-2">Арабкир</span><span className="map-label label-3">Ереван</span>
         </div>
         <div className="location-copy">
@@ -241,11 +241,11 @@ export default function Home() {
       </section>
 
       <footer>
-        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark"><Bike size={24} /></span><span>ВелоЛад</span></a><p>Школа уверенного катания<br />для детей и взрослых.</p></div>
+        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark"><Bike size={24} /></span><span>BIKE UP</span></a><p>Школа уверенного катания<br />для детей и взрослых.</p></div>
         <div><b>Обучение</b><a href="#programs">Программы</a><a href="#prices">Цены</a><a href="#portfolio">Занятия</a></div>
         <div><b>Школа</b><a href="#reviews">Отзывы</a><a href="#location">Локация</a><a href="#signup">Записаться</a></div>
         <div className="footer-place"><MapPin /><span><b>Ереван, Армения</b><small>занятия по предварительной записи</small></span></div>
-        <p className="copyright">© 2026 ВелоЛад. Катайтесь в ладу с собой.</p>
+        <p className="copyright">© 2026 BIKE UP. От первых метров до новых высот.</p>
       </footer>
     </main>
   );
