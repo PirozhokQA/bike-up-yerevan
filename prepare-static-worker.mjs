@@ -14,7 +14,7 @@ let js = await readFile(`${clientDir}/${jsSrc.replace(/^\//, "")}`, "utf8");
 for (const name of ["hero-bike-school", "kids-training", "advanced-training"]) {
   const file = await readFile(`${clientDir}/images/${name}.webp`);
   const dataUrl = `data:image/webp;base64,${file.toString("base64")}`;
-  js = js.split(`/images/${name}.webp`).join(dataUrl);
+  js = js.split(`images/${name}.webp`).join(dataUrl);
 }
 
 html = html

@@ -1,11 +1,12 @@
 {
-  "name": "velolad-yerevan",
+  "name": "bike-up-yerevan",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/client && node prepare-static-worker.mjs",
+    "build:pages": "vite build --base /bike-up-yerevan/ --outDir dist-pages",
     "preview": "vite preview"
   },
   "dependencies": {

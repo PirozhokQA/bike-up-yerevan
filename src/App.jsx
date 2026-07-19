@@ -47,6 +47,10 @@ const faqs = [
   ["Что делать, если я боюсь падения?", "Это нормальная отправная точка. Начинаем с низкой скорости, безопасной экипировки и упражнений, где вы полностью контролируете велосипед."],
 ];
 
+const asset = (path) => path.startsWith("data:")
+  ? path
+  : `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+
 function scrollToForm() {
   document.getElementById("signup")?.scrollIntoView({ behavior: "smooth" });
 }
@@ -83,7 +87,7 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <img src="/images/hero-bike-school.webp" alt="Тренер BIKE UP проводит групповое занятие в Ереване" />
+        <img src={asset("images/hero-bike-school.webp")} alt="Тренер BIKE UP проводит групповое занятие в Ереване" />
         <div className="hero-shade" />
         <div className="hero-content">
           <div className="eyebrow"><MapPin size={16} /> Школа велосипеда · Ереван</div>
@@ -139,7 +143,7 @@ export default function Home() {
           </div>
         </div>
         <figure className="method-image">
-          <img src="/images/kids-training.webp" alt="Ребёнок проходит полосу препятствий рядом с тренером" />
+          <img src={asset("images/kids-training.webp")} alt="Ребёнок проходит полосу препятствий рядом с тренером" />
           <figcaption><ShieldCheck size={20} /><span><b>Тренер рядом</b> на каждом новом элементе</span></figcaption>
         </figure>
       </section>
@@ -170,11 +174,11 @@ export default function Home() {
         </div>
         <div className="portfolio-grid">
           <figure className="portfolio-main">
-            <img src="/images/advanced-training.webp" alt="Ученик отрабатывает небольшой прыжок под контролем тренера" />
+            <img src={asset("images/advanced-training.webp")} alt="Ученик отрабатывает небольшой прыжок под контролем тренера" />
             <div className="play-badge"><Play fill="currentColor" /><span><b>Продвинутый урок</b><small>контроль препятствия</small></span></div>
           </figure>
-          <figure><img src="/images/kids-training.webp" alt="Детское занятие на баланс" /><figcaption>Баланс и точность</figcaption></figure>
-          <figure><img src="/images/hero-bike-school.webp" alt="Групповая тренировка" /><figcaption>Групповая практика</figcaption></figure>
+          <figure><img src={asset("images/kids-training.webp")} alt="Детское занятие на баланс" /><figcaption>Баланс и точность</figcaption></figure>
+          <figure><img src={asset("images/hero-bike-school.webp")} alt="Групповая тренировка" /><figcaption>Групповая практика</figcaption></figure>
         </div>
       </section>
 
