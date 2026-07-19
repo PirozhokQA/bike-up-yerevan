@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -10,6 +10,7 @@ import {
   Clock3,
   Gauge,
   Heart,
+  Languages,
   MapPin,
   Menu,
   MessageCircle,
@@ -20,31 +21,13 @@ import {
   Target,
   X,
 } from "lucide-react";
+import { translations } from "./site-translations.js";
 
-const programs = [
-  { icon: Bike, label: "С нуля", title: "Первый уверенный старт", text: "Баланс, старт, торможение и повороты. Для детей и взрослых, которые ещё не ездят или боятся велосипеда.", meta: "от 2 занятий" },
-  { icon: ShieldCheck, label: "Безопасность", title: "Управление в городе", text: "Экстренное торможение, объезд препятствий, контроль скорости и безопасные привычки для ежедневных поездок.", meta: "3–5 занятий" },
-  { icon: Gauge, label: "Техника", title: "Продвинутое катание", text: "Повороты, подъёмы, спуски, перенос веса и уверенная езда по разному покрытию.", meta: "от 4 занятий" },
-  { icon: Sparkles, label: "Новый уровень", title: "Трюки и препятствия", text: "Банни-хоп, мануал, бордюры и безопасная работа на памп-треке — постепенно и под контролем тренера.", meta: "по уровню" },
-];
-
-const prices = [
-  { title: "Знакомство", price: "9 000 ֏", unit: "60 минут", text: "Диагностика навыков и первый заметный результат.", items: ["Индивидуально", "План обучения", "Подбор площадки"], featured: false },
-  { title: "Уверенный старт", price: "32 000 ֏", unit: "4 занятия", text: "Оптимально, чтобы закрепить базовые навыки без спешки.", items: ["4 × 60 минут", "Личный тренер", "Домашние упражнения"], featured: true },
-  { title: "Вместе", price: "7 000 ֏", unit: "с человека", text: "Для друзей, пары, братьев и сестёр одного уровня.", items: ["Группа 2–4 человека", "75 минут", "Общая цель занятия"], featured: false },
-];
-
-const reviews = [
-  { name: "Анна, мама Левона", meta: "7 лет · курс с нуля", text: "На втором занятии Левон уже сам стартовал и тормозил. Больше всего понравилось, что тренер не торопил и объяснял всё как игру." },
-  { name: "Мария", meta: "34 года · первый велосипед", text: "Я была уверена, что уже поздно учиться. Через три встречи спокойно проехала свой первый маршрут и перестала бояться поворотов." },
-  { name: "Арман", meta: "28 лет · продвинутый уровень", text: "Разобрали технику по деталям. Банни-хоп наконец стал контролируемым движением, а не попыткой перепрыгнуть препятствие на удачу." },
-];
-
-const faqs = [
-  ["Нужен ли свой велосипед?", "Желательно, чтобы навык сразу закреплялся на вашем велосипеде. Если его пока нет, подскажем подходящий вариант перед занятием."],
-  ["Со скольких лет можно заниматься?", "Обычно начинаем с 4–5 лет, когда ребёнок уверенно понимает инструкции. Точный формат определим после короткого разговора."],
-  ["Где проходят занятия?", "В Ереване: на спокойных ровных площадках, в парках и на тренировочных локациях. Место выбираем под навык и район ученика."],
-  ["Что делать, если я боюсь падения?", "Это нормальная отправная точка. Начинаем с низкой скорости, безопасной экипировки и упражнений, где вы полностью контролируете велосипед."],
+const programIcons = [Bike, ShieldCheck, Gauge, Sparkles];
+const languageOptions = [
+  { value: "ru", label: "Русский" },
+  { value: "en", label: "English" },
+  { value: "hy", label: "Հայերեն" },
 ];
 
 const asset = (path) => path.startsWith("data:")
@@ -66,9 +49,27 @@ function scrollToForm() {
 }
 
 export default function Home() {
+  const [language, setLanguage] = useState("ru");
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [sent, setSent] = useState(false);
+  const t = translations[language];
+
+  useEffect(() => {
+    const savedLanguage = window.localStorage.getItem("bike-up-language");
+    if (savedLanguage && translations[savedLanguage]) setLanguage(savedLanguage);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    window.localStorage.setItem("bike-up-language", language);
+  }, [language]);
+
+  const changeLanguage = (event) => {
+    setLanguage(event.target.value);
+    setMenuOpen(false);
+    setOpenFaq(0);
+  };
 
   const submit = (event) => {
     event.preventDefault();
@@ -79,57 +80,64 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="BIKE UP — на главную">
+        <a className="brand" href="#top" aria-label={t.homeAria}>
           <BrandMark />
           <span className="brand-word"><span>BIKE</span><b>UP</b></span>
         </a>
-        <nav className={menuOpen ? "nav open" : "nav"} aria-label="Основная навигация">
-          <a href="#programs" onClick={() => setMenuOpen(false)}>Программы</a>
-          <a href="#prices" onClick={() => setMenuOpen(false)}>Цены</a>
-          <a href="#portfolio" onClick={() => setMenuOpen(false)}>Как проходят занятия</a>
-          <a href="#reviews" onClick={() => setMenuOpen(false)}>Отзывы</a>
-          <a href="#location" onClick={() => setMenuOpen(false)}>Локация</a>
+        <nav className={menuOpen ? "nav open" : "nav"} aria-label={t.navAria}>
+          <a href="#programs" onClick={() => setMenuOpen(false)}>{t.nav.programs}</a>
+          <a href="#prices" onClick={() => setMenuOpen(false)}>{t.nav.prices}</a>
+          <a href="#portfolio" onClick={() => setMenuOpen(false)}>{t.nav.portfolio}</a>
+          <a href="#reviews" onClick={() => setMenuOpen(false)}>{t.nav.reviews}</a>
+          <a href="#location" onClick={() => setMenuOpen(false)}>{t.nav.location}</a>
         </nav>
-        <button className="header-cta" onClick={scrollToForm}>Записаться <ArrowRight size={18} /></button>
-        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}>
-          {menuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="header-actions">
+          <label className="language-switcher">
+            <Languages size={17} aria-hidden="true" />
+            <span className="visually-hidden">{t.languageLabel}</span>
+            <select value={language} onChange={changeLanguage} aria-label={t.languageLabel}>
+              {languageOptions.map(option => <option value={option.value} key={option.value}>{option.label}</option>)}
+            </select>
+            <ChevronDown className="language-chevron" size={15} aria-hidden="true" />
+          </label>
+          <button className="header-cta" onClick={scrollToForm}>{t.nav.signup} <ArrowRight size={18} /></button>
+          <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? t.closeMenu : t.openMenu}>
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </header>
 
       <section className="hero" id="top">
-        <img src={asset("images/hero-bike-school.webp")} alt="Тренер BIKE UP проводит групповое занятие в Ереване" />
+        <img src={asset("images/hero-bike-school.webp")} alt={t.hero.alt} />
         <div className="hero-shade" />
         <div className="hero-content">
-          <div className="eyebrow"><MapPin size={16} /> Школа велосипеда · Ереван</div>
+          <div className="eyebrow"><MapPin size={16} /> {t.hero.eyebrow}</div>
           <h1>BIKE <span>UP</span></h1>
-          <p className="hero-lead">Научим управлять велосипедом, а не просто держаться в седле.</p>
-          <p className="hero-copy">Безопасные индивидуальные и групповые занятия для детей и взрослых — от первого старта до трюков и препятствий.</p>
+          <p className="hero-lead">{t.hero.lead}</p>
+          <p className="hero-copy">{t.hero.copy}</p>
           <div className="hero-actions">
-            <button className="primary-button" onClick={scrollToForm}>Подобрать программу <ArrowRight size={19} /></button>
-            <a className="text-link" href="#portfolio"><Play size={18} /> Посмотреть занятия</a>
+            <button className="primary-button" onClick={scrollToForm}>{t.hero.choose} <ArrowRight size={19} /></button>
+            <a className="text-link" href="#portfolio"><Play size={18} /> {t.hero.view}</a>
           </div>
         </div>
         <div className="hero-proof">
-          <div><strong>4+</strong><span>лет</span></div>
-          <div><strong>1:1</strong><span>внимание тренера</span></div>
-          <div><strong>100%</strong><span>в шлемах</span></div>
+          {t.hero.proof.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}
         </div>
       </section>
 
-      <section className="trust-band" aria-label="Преимущества школы">
-        <div><ShieldCheck /><span><b>Безопасная методика</b><small>от простого к сложному</small></span></div>
-        <div><Target /><span><b>Видимый прогресс</b><small>цель на каждое занятие</small></span></div>
-        <div><Heart /><span><b>Без давления</b><small>бережный темп ученика</small></span></div>
-        <div><MapPin /><span><b>В Ереване</b><small>удобная площадка под уровень</small></span></div>
+      <section className="trust-band" aria-label={t.trustAria}>
+        {[ShieldCheck, Target, Heart, MapPin].map((Icon, index) => <div key={t.trust[index][0]}><Icon /><span><b>{t.trust[index][0]}</b><small>{t.trust[index][1]}</small></span></div>)}
       </section>
 
       <section className="section" id="programs">
         <div className="section-heading">
-          <div><span className="kicker">Направления</span><h2>От первого метра до нового уровня</h2></div>
-          <p>Не привязываем всех к одной программе. Сначала смотрим, что уже получается, затем собираем понятный маршрут обучения.</p>
+          <div><span className="kicker">{t.programsSection.kicker}</span><h2>{t.programsSection.title}</h2></div>
+          <p>{t.programsSection.text}</p>
         </div>
         <div className="program-grid">
-          {programs.map(({ icon: Icon, ...program }, index) => (
+          {t.programs.map((program, index) => {
+            const Icon = programIcons[index];
+            return (
             <article className="program-card" key={program.title}>
               <div className="program-top"><span className="number">0{index + 1}</span><span className="program-icon"><Icon /></span></div>
               <span className="card-label">{program.label}</span>
@@ -137,41 +145,40 @@ export default function Home() {
               <p>{program.text}</p>
               <span className="program-meta"><Clock3 size={16} /> {program.meta}</span>
             </article>
-          ))}
+            );
+          })}
         </div>
       </section>
 
       <section className="method-band">
         <div className="method-copy">
-          <span className="kicker light">Как мы учим</span>
-          <h2>Спокойно. Понятно. По-настоящему.</h2>
-          <p>Каждое занятие строится вокруг одной задачи. Тренер показывает движение, разбирает его на простые шаги и остаётся рядом, пока навык не станет уверенным.</p>
+          <span className="kicker light">{t.method.kicker}</span>
+          <h2>{t.method.title}</h2>
+          <p>{t.method.text}</p>
           <div className="method-steps">
-            <div><b>01</b><span>Определяем уровень и цель</span></div>
-            <div><b>02</b><span>Тренируем навык в безопасных условиях</span></div>
-            <div><b>03</b><span>Закрепляем в реальном катании</span></div>
+            {t.method.steps.map((step, index) => <div key={step}><b>0{index + 1}</b><span>{step}</span></div>)}
           </div>
         </div>
         <figure className="method-image">
-          <img src={asset("images/kids-training.webp")} alt="Ребёнок проходит полосу препятствий рядом с тренером" />
-          <figcaption><ShieldCheck size={20} /><span><b>Тренер рядом</b> на каждом новом элементе</span></figcaption>
+          <img src={asset("images/kids-training.webp")} alt={t.method.alt} />
+          <figcaption><ShieldCheck size={20} /><span><b>{t.method.coach}</b> {t.method.coachText}</span></figcaption>
         </figure>
       </section>
 
       <section className="section" id="prices">
         <div className="section-heading compact">
-          <div><span className="kicker">Стоимость</span><h2>Прозрачные форматы занятий</h2></div>
-          <p>Шлем обязателен. Защитную экипировку и велосипед обсудим перед первым занятием.</p>
+          <div><span className="kicker">{t.pricesSection.kicker}</span><h2>{t.pricesSection.title}</h2></div>
+          <p>{t.pricesSection.text}</p>
         </div>
         <div className="price-grid">
-          {prices.map((price) => (
+          {t.prices.map((price) => (
             <article className={price.featured ? "price-card featured" : "price-card"} key={price.title}>
-              {price.featured && <span className="popular">Чаще выбирают</span>}
+              {price.featured && <span className="popular">{t.pricesSection.popular}</span>}
               <h3>{price.title}</h3>
               <p>{price.text}</p>
               <div className="price"><strong>{price.price}</strong><span>{price.unit}</span></div>
               <ul>{price.items.map(item => <li key={item}><Check size={17} /> {item}</li>)}</ul>
-              <button onClick={scrollToForm}>Выбрать <ArrowRight size={18} /></button>
+              <button onClick={scrollToForm}>{t.pricesSection.choose} <ArrowRight size={18} /></button>
             </article>
           ))}
         </div>
@@ -179,48 +186,48 @@ export default function Home() {
 
       <section className="portfolio-section" id="portfolio">
         <div className="section-heading inverse">
-          <div><span className="kicker light">В движении</span><h2>Занятия, на которых хочется пробовать</h2></div>
-          <p>Сначала контроль и техника. Скорость, сложность и эффектные элементы приходят следом.</p>
+          <div><span className="kicker light">{t.portfolio.kicker}</span><h2>{t.portfolio.title}</h2></div>
+          <p>{t.portfolio.text}</p>
         </div>
         <div className="portfolio-grid">
           <figure className="portfolio-main">
-            <img src={asset("images/advanced-training.webp")} alt="Ученик отрабатывает небольшой прыжок под контролем тренера" />
-            <div className="play-badge"><Play fill="currentColor" /><span><b>Продвинутый урок</b><small>контроль препятствия</small></span></div>
+            <img src={asset("images/advanced-training.webp")} alt={t.portfolio.mainAlt} />
+            <div className="play-badge"><Play fill="currentColor" /><span><b>{t.portfolio.lesson}</b><small>{t.portfolio.lessonMeta}</small></span></div>
           </figure>
-          <figure><img src={asset("images/kids-training.webp")} alt="Детское занятие на баланс" /><figcaption>Баланс и точность</figcaption></figure>
-          <figure><img src={asset("images/hero-bike-school.webp")} alt="Групповая тренировка" /><figcaption>Групповая практика</figcaption></figure>
+          <figure><img src={asset("images/kids-training.webp")} alt={t.portfolio.kidsAlt} /><figcaption>{t.portfolio.kidsCaption}</figcaption></figure>
+          <figure><img src={asset("images/hero-bike-school.webp")} alt={t.portfolio.groupAlt} /><figcaption>{t.portfolio.groupCaption}</figcaption></figure>
         </div>
       </section>
 
       <section className="section" id="reviews">
         <div className="section-heading compact">
-          <div><span className="kicker">Отзывы</span><h2>Уверенность заметна сразу</h2></div>
-          <div className="rating"><span>5.0</span><span className="stars">★★★★★</span><small>по отзывам учеников</small></div>
+          <div><span className="kicker">{t.reviewsSection.kicker}</span><h2>{t.reviewsSection.title}</h2></div>
+          <div className="rating"><span>5.0</span><span className="stars">★★★★★</span><small>{t.reviewsSection.rating}</small></div>
         </div>
         <div className="reviews-grid">
-          {reviews.map(review => <article className="review-card" key={review.name}><MessageCircle /><p>«{review.text}»</p><div><b>{review.name}</b><span>{review.meta}</span></div></article>)}
+          {t.reviews.map(review => <article className="review-card" key={review.name}><MessageCircle /><p>“{review.text}”</p><div><b>{review.name}</b><span>{review.meta}</span></div></article>)}
         </div>
       </section>
 
       <section className="location-band" id="location">
-        <div className="location-map" aria-label="Схематичная карта Еревана">
+        <div className="location-map" aria-label={t.location.mapAria}>
           <span className="map-road r1" /><span className="map-road r2" /><span className="map-road r3" /><span className="map-road r4" />
           <span className="map-pin"><MapPin /><i>BIKE UP</i></span>
-          <span className="map-label label-1">Кентрон</span><span className="map-label label-2">Арабкир</span><span className="map-label label-3">Ереван</span>
+          <span className="map-label label-1">{t.location.labels[0]}</span><span className="map-label label-2">{t.location.labels[1]}</span><span className="map-label label-3">{t.location.labels[2]}</span>
         </div>
         <div className="location-copy">
-          <span className="kicker">Локация</span>
-          <h2>Тренируемся в Ереване</h2>
-          <p>Подбираем спокойную площадку под ваш район, возраст и уровень. Для продвинутых занятий используем подходящие парки и тренировочные зоны.</p>
-          <div className="location-note"><MapPin /><span><b>Точное место</b><small>согласуем после записи</small></span></div>
-          <button className="dark-button" onClick={scrollToForm}>Узнать ближайшую площадку <ArrowRight size={18} /></button>
+          <span className="kicker">{t.location.kicker}</span>
+          <h2>{t.location.title}</h2>
+          <p>{t.location.text}</p>
+          <div className="location-note"><MapPin /><span><b>{t.location.exact}</b><small>{t.location.exactText}</small></span></div>
+          <button className="dark-button" onClick={scrollToForm}>{t.location.button} <ArrowRight size={18} /></button>
         </div>
       </section>
 
       <section className="section faq-section">
-        <div><span className="kicker">Вопросы</span><h2>Перед первым занятием</h2><p className="faq-intro">Если вашего вопроса нет в списке, оставьте заявку — ответим и поможем выбрать формат.</p></div>
+        <div><span className="kicker">{t.faqSection.kicker}</span><h2>{t.faqSection.title}</h2><p className="faq-intro">{t.faqSection.text}</p></div>
         <div className="faq-list">
-          {faqs.map(([question, answer], index) => (
+          {t.faqs.map(([question, answer], index) => (
             <button className={openFaq === index ? "faq open" : "faq"} onClick={() => setOpenFaq(openFaq === index ? -1 : index)} key={question} aria-expanded={openFaq === index}>
               <span>{question}</span><ChevronDown />
               <p>{answer}</p>
@@ -231,37 +238,37 @@ export default function Home() {
 
       <section className="signup-section" id="signup">
         <div className="signup-copy">
-          <span className="kicker light">Начнём с вашей цели</span>
-          <h2>Первый уверенный метр начинается здесь</h2>
-          <p>Расскажите, кто будет заниматься и что хочется освоить. Мы предложим программу, тренера и подходящую площадку в Ереване.</p>
-          <div className="signup-points"><span><Check /> Ответим в течение дня</span><span><Check /> Без обязательств</span><span><Check /> План под ваш уровень</span></div>
+          <span className="kicker light">{t.signup.kicker}</span>
+          <h2>{t.signup.title}</h2>
+          <p>{t.signup.text}</p>
+          <div className="signup-points">{t.signup.points.map(point => <span key={point}><Check /> {point}</span>)}</div>
         </div>
         <form className="signup-form" onSubmit={submit}>
           {sent ? (
-            <div className="success"><span><Check /></span><h3>Заявка принята</h3><p>Спасибо! Мы свяжемся с вами, чтобы уточнить цель и подобрать занятие.</p><button type="button" onClick={() => setSent(false)}>Отправить ещё одну</button></div>
+            <div className="success"><span><Check /></span><h3>{t.signup.successTitle}</h3><p>{t.signup.successText}</p><button type="button" onClick={() => setSent(false)}>{t.signup.again}</button></div>
           ) : (
             <>
-              <div className="form-head"><h3>Подобрать занятие</h3><span>2 минуты</span></div>
-              <label>Как к вам обращаться?<input name="name" required placeholder="Ваше имя" /></label>
-              <label>Телефон или Telegram<input name="contact" required placeholder="+374 или @username" /></label>
+              <div className="form-head"><h3>{t.signup.formTitle}</h3><span>{t.signup.duration}</span></div>
+              <label>{t.signup.nameLabel}<input name="name" required placeholder={t.signup.namePlaceholder} /></label>
+              <label>{t.signup.contactLabel}<input name="contact" required placeholder="+374 or @username" /></label>
               <div className="form-row">
-                <label>Кто будет заниматься?<select name="student" defaultValue=""><option value="" disabled>Выберите</option><option>Ребёнок</option><option>Взрослый</option><option>Двое или группа</option></select></label>
-                <label>Текущий уровень<select name="level" defaultValue=""><option value="" disabled>Выберите</option><option>С нуля</option><option>Езжу, но неуверенно</option><option>Уверенно катаюсь</option><option>Хочу трюки</option></select></label>
+                <label>{t.signup.studentLabel}<select name="student" defaultValue="" key={`student-${language}`}><option value="" disabled>{t.signup.select}</option>{t.signup.students.map(option => <option key={option}>{option}</option>)}</select></label>
+                <label>{t.signup.levelLabel}<select name="level" defaultValue="" key={`level-${language}`}><option value="" disabled>{t.signup.select}</option>{t.signup.levels.map(option => <option key={option}>{option}</option>)}</select></label>
               </div>
-              <label>Что хочется освоить?<textarea name="goal" rows="3" placeholder="Например: научиться стартовать и тормозить" /></label>
-              <button className="submit-button" type="submit">Отправить заявку <ArrowRight size={19} /></button>
-              <small className="privacy">Нажимая кнопку, вы соглашаетесь на обработку данных для связи по заявке.</small>
+              <label>{t.signup.goalLabel}<textarea name="goal" rows="3" placeholder={t.signup.goalPlaceholder} /></label>
+              <button className="submit-button" type="submit">{t.signup.submit} <ArrowRight size={19} /></button>
+              <small className="privacy">{t.signup.privacy}</small>
             </>
           )}
         </form>
       </section>
 
       <footer>
-        <div className="footer-brand"><a className="brand" href="#top"><BrandMark /><span className="brand-word"><span>BIKE</span><b>UP</b></span></a><p>Школа уверенного катания<br />для детей и взрослых.</p></div>
-        <div><b>Обучение</b><a href="#programs">Программы</a><a href="#prices">Цены</a><a href="#portfolio">Занятия</a></div>
-        <div><b>Школа</b><a href="#reviews">Отзывы</a><a href="#location">Локация</a><a href="#signup">Записаться</a></div>
-        <div className="footer-place"><MapPin /><span><b>Ереван, Армения</b><small>занятия по предварительной записи</small></span></div>
-        <p className="copyright">© 2026 BIKE UP. От первых метров до новых высот.</p>
+        <div className="footer-brand"><a className="brand" href="#top"><BrandMark /><span className="brand-word"><span>BIKE</span><b>UP</b></span></a><p>{t.footer.description.split("\n").map((line, index) => <span key={line}>{index > 0 && <br />}{line}</span>)}</p></div>
+        <div><b>{t.footer.training}</b><a href="#programs">{t.nav.programs}</a><a href="#prices">{t.nav.prices}</a><a href="#portfolio">{t.footer.lessons}</a></div>
+        <div><b>{t.footer.school}</b><a href="#reviews">{t.nav.reviews}</a><a href="#location">{t.nav.location}</a><a href="#signup">{t.nav.signup}</a></div>
+        <div className="footer-place"><MapPin /><span><b>{t.footer.place}</b><small>{t.footer.placeText}</small></span></div>
+        <p className="copyright">{t.footer.copyright}</p>
       </footer>
     </main>
   );
