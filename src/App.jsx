@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   ArrowRight,
+  ArrowUpRight,
   Bike,
   Check,
   ChevronDown,
@@ -54,13 +55,8 @@ function BrandMark() {
   return (
     <span className="brand-mark" aria-hidden="true">
       <Mountain className="brand-mountain" />
-      <svg className="brand-helmet" viewBox="0 0 52 44" fill="none">
-        <path className="helmet-shell" d="M7 24.5C7 13.2 15.2 5.5 26.5 5.5c8.2 0 14.8 3.7 18.3 10l-5.9 4.2-3.5 8.7 9.4 5.5-3.2 5.2H24.3l-7.5-8.2H9.4A16.7 16.7 0 0 1 7 24.5Z" />
-        <path className="helmet-visor" d="m12.6 16.2 25.9-.8-5.7 10.2H14.1l-2.8-5.1 1.3-4.3Z" />
-        <path className="helmet-chin" d="m17.1 29 11.8.2 3.2 4.8 10.3 1.1-1.8 3.1H24.8L17.1 29Z" />
-        <path className="helmet-peak" d="m16 9.5 22.2 1.6 6.6 4.4-6.3-.1" />
-        <circle className="helmet-vent" cx="12.4" cy="27.1" r="1.7" />
-      </svg>
+      <Bike className="brand-bike" />
+      <ArrowUpRight className="brand-rise" />
     </span>
   );
 }
