@@ -66,7 +66,7 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="BIKE UP — на главную">
-          <span className="brand-mark" aria-hidden="true"><Mountain className="brand-mountain" /><ArrowUpRight className="brand-rise" /></span>
+          <span className="brand-mark" aria-hidden="true"><Mountain className="brand-mountain" /><Bike className="brand-bike" /><ArrowUpRight className="brand-rise" /></span>
           <span className="brand-word"><span>BIKE</span><b>UP</b></span>
         </a>
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Основная навигация">
@@ -243,7 +243,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark" aria-hidden="true"><Mountain className="brand-mountain" /><ArrowUpRight className="brand-rise" /></span><span className="brand-word"><span>BIKE</span><b>UP</b></span></a><p>Школа уверенного катания<br />для детей и взрослых.</p></div>
+        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark" aria-hidden="true"><Mountain className="brand-mountain" /><Bike className="brand-bike" /><ArrowUpRight className="brand-rise" /></span><span className="brand-word"><span>BIKE</span><b>UP</b></span></a><p>Школа уверенного катания<br />для детей и взрослых.</p></div>
         <div><b>Обучение</b><a href="#programs">Программы</a><a href="#prices">Цены</a><a href="#portfolio">Занятия</a></div>
         <div><b>Школа</b><a href="#reviews">Отзывы</a><a href="#location">Локация</a><a href="#signup">Записаться</a></div>
         <div className="footer-place"><MapPin /><span><b>Ереван, Армения</b><small>занятия по предварительной записи</small></span></div>

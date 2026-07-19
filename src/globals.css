@@ -30,9 +30,10 @@ h1, h2, h3 { font-family: "Trebuchet MS", Inter, sans-serif; letter-spacing: 0; 
   color: var(--white); border-bottom: 1px solid rgba(255,255,255,.26);
 }
 .brand { display: inline-flex; align-items: center; gap: 11px; font: 900 21px/1 "Trebuchet MS", sans-serif; white-space: nowrap; }
-.brand-mark { position: relative; display: inline-block; width: 46px; height: 42px; flex: 0 0 auto; color: var(--white); background: var(--coral); border: 1px solid rgba(255,255,255,.42); border-radius: 6px; clip-path: polygon(0 0, 78% 0, 100% 22%, 100% 100%, 0 100%); overflow: hidden; }
-.brand-mountain { position: absolute; left: 5px; bottom: 4px; width: 31px; height: 27px; stroke-width: 2.4; }
-.brand-rise { position: absolute; top: 2px; right: 1px; width: 18px; height: 18px; color: var(--sun); stroke-width: 3.2; }
+.brand-mark { position: relative; display: inline-block; width: 52px; height: 42px; flex: 0 0 auto; color: var(--white); background: var(--coral); border: 1px solid rgba(255,255,255,.42); border-radius: 6px; clip-path: polygon(0 0, 80% 0, 100% 25%, 100% 100%, 0 100%); overflow: hidden; }
+.brand-mountain { position: absolute; left: -1px; bottom: -4px; width: 43px; height: 27px; opacity: .42; stroke-width: 2.2; }
+.brand-bike { position: absolute; left: 8px; top: 8px; width: 31px; height: 27px; stroke-width: 2.35; transform: rotate(-4deg); }
+.brand-rise { position: absolute; top: 1px; right: 1px; width: 16px; height: 16px; color: var(--sun); stroke-width: 3.2; }
 .brand-word { display: inline-flex; align-items: baseline; gap: 5px; }
 .brand-word b { color: #ff8171; font-size: .82em; }
 .nav { display: flex; justify-content: center; align-items: center; gap: clamp(18px, 2vw, 34px); font-size: 14px; font-weight: 650; }
