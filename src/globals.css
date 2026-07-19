@@ -29,8 +29,12 @@ h1, h2, h3 { font-family: "Trebuchet MS", Inter, sans-serif; letter-spacing: 0; 
   grid-template-columns: auto 1fr auto; align-items: center; gap: 36px; padding: 0 clamp(22px, 5vw, 80px);
   color: var(--white); border-bottom: 1px solid rgba(255,255,255,.26);
 }
-.brand { display: inline-flex; align-items: center; gap: 10px; font: 800 21px/1 "Trebuchet MS", sans-serif; white-space: nowrap; }
-.brand-mark { display: inline-grid; place-items: center; width: 40px; height: 40px; color: var(--white); background: var(--coral); border-radius: 50%; }
+.brand { display: inline-flex; align-items: center; gap: 11px; font: 900 21px/1 "Trebuchet MS", sans-serif; white-space: nowrap; }
+.brand-mark { position: relative; display: inline-block; width: 46px; height: 42px; flex: 0 0 auto; color: var(--white); background: var(--coral); border: 1px solid rgba(255,255,255,.42); border-radius: 6px; clip-path: polygon(0 0, 78% 0, 100% 22%, 100% 100%, 0 100%); overflow: hidden; }
+.brand-mountain { position: absolute; left: 5px; bottom: 4px; width: 31px; height: 27px; stroke-width: 2.4; }
+.brand-rise { position: absolute; top: 2px; right: 1px; width: 18px; height: 18px; color: var(--sun); stroke-width: 3.2; }
+.brand-word { display: inline-flex; align-items: baseline; gap: 5px; }
+.brand-word b { color: #ff8171; font-size: .82em; }
 .nav { display: flex; justify-content: center; align-items: center; gap: clamp(18px, 2vw, 34px); font-size: 14px; font-weight: 650; }
 .nav a { opacity: .88; transition: opacity .2s; }
 .nav a:hover { opacity: 1; }
@@ -48,6 +52,7 @@ h1, h2, h3 { font-family: "Trebuchet MS", Inter, sans-serif; letter-spacing: 0; 
 .eyebrow, .kicker { display: inline-flex; align-items: center; gap: 8px; width: fit-content; color: var(--coral-dark); font-size: 13px; font-weight: 850; text-transform: uppercase; }
 .eyebrow { color: var(--white); background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.25); border-radius: 20px; padding: 9px 13px; backdrop-filter: blur(8px); }
 .hero h1 { margin-top: 22px; font-size: clamp(68px, 9vw, 132px); line-height: .86; font-weight: 900; }
+.hero h1 span { color: #ff8171; }
 .hero-lead { max-width: 660px; margin-top: 24px; font: 800 clamp(24px, 3vw, 39px)/1.12 "Trebuchet MS", sans-serif; }
 .hero-copy { max-width: 590px; margin-top: 19px; font-size: 17px; line-height: 1.6; color: rgba(255,255,255,.84); }
 .hero-actions { display: flex; align-items: center; gap: 26px; margin-top: 32px; }
